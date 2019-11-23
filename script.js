@@ -7,7 +7,14 @@ let deesc = document.getElementsByClassName('desc')[0];
 let prio = document.getElementsByClassName('prior')[0];
 let tasks = document.getElementById('tasks');
 let triTochki;
-let ddone;
+let DoNe;
+let DeL;
+
+
+
+
+
+
 class fileSystem{
     constructor(){
        this.taskss = [];
@@ -22,24 +29,28 @@ class fileSystem{
        desc: desc.value,
        prior: prior.value,
        done: false,
+       doneClicked: false,
     })
    }
    changeTask(title, desc, prior, index){
     console.log("consol")
    }
    removeTask(index){
-    console.log('c')
+    index.remove();
    }
    refresh(){
-       let cs = document.getElementById('cs')
+       let cs = document.getElementById('css')
        if(cs != null)  tasks.removeChild(cs)
-    
    }
-   doneTask(index){
+   doneTask(index, obj){
+       if(obj.done == true){
     index.classList.add('backgroundGray')
+       }else{
+           console.log(obj);
+       }
+       if(obj.doneClicked == true) index.classList.add('backgroundGray')
+       }
    }
-
-}
 let file = new fileSystem();
 
 
@@ -63,26 +74,41 @@ apply.addEventListener('click', function(){
     clearData();
     menu.style.display = "none";
     showTasks(file.taskss);
+    DeL = document.getElementsByClassName('del')
+    DoNe = document.getElementsByClassName('done')
     triTochki = document.getElementsByClassName("tri-tochki");
-    ddone = document.getElementsByClassName('DoNe')
     for(i=0; i<triTochki.length; i++){
         let a = triTochki[i];
         a.addEventListener('click', function(e){
             e.target.nextElementSibling.classList.toggle('displayBlock');
         })
     }    
-    for(i=0; i<ddone.length; i++){
-    let aa = ddone[i];
-    aa.addEventListener('click', function(){
+    for(i=0; i<DoNe.length; i++){
+    let aa = DoNe[i];    
     console.log(aa);
-    let aaa = DoNe.getAttribute('data-index')
-    file.doneTask(aaa);
+    aa.addEventListener('click', function(){
+        let aaa = aa.parentNode.parentNode.parentNode.parentNode;
+        if(aa.done == true){
+        file.doneTask(aaa, aa);
+        }else{
+        aa.done = true;
+        file.doneTask(aaa, aa)
+        }
+
         })
     }
-
+    for(i=0; i<DeL.length; i++){
+        let b = DeL[i];
+        console.log(b)
+        b.addEventListener('click', function(){
+            let bb = b.parentNode.parentNode.parentNode.parentNode;
+            file.removeTask(bb)
+        })
+    }
     })
 
 function showTasks(arr){
+    
     let b = document.getElementById('css');
     if(b != null)   b.remove()
     let cs = document.createElement('div');
@@ -91,8 +117,7 @@ function showTasks(arr){
     for(i=0; i!=arr.length; i++){
         let taask = document.createElement("div");
         taask.className = "task";
-        if(arr[i].done) taask.classList.add('backgroundGray')
-    
+
         let ttittle = document.createElement("div");
         ttittle.className = "title";
         ttittle.innerText = arr[i].title;
