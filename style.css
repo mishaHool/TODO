@@ -111,3 +111,6 @@ body{
 .backgroundGray{
     background-color: gray;
 }
+.removed{
+    display: none;
+}
