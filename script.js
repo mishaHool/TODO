@@ -34,7 +34,6 @@ class fileSystem{
     console.log(this.taskss)
    }
    changeTask(index){
-        let i;
     for(i=0;i<this.taskss.length;i++){
         let tass = this.taskss[i];
         if(tass.index == index){
@@ -52,6 +51,7 @@ class fileSystem{
                 tass.prior = rio;
                 menu.style.display = 'none';
                 file.addTask(file.taskss);
+                file.taskss.splice(i, 1);
                 showTasks(file.taskss);
                 clearData()
             });
