@@ -40,7 +40,9 @@ body{
     margin-right: auto;
     color: white;
     width: 252px;
+    height: 290px;
 }
+
 .buttons{
     margin-top: 10px;   
 }
@@ -112,5 +114,8 @@ body{
     background-color: gray;
 }
 .removed{
+    display: none;
+}
+.filtred{
     display: none;
 }

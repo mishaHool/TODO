@@ -7,6 +7,10 @@ let deesc = document.getElementsByClassName('desc')[0];
 let prio = document.getElementsByClassName('prior')[0];
 let tasks = document.getElementById('tasks');
 let update = document.getElementsByClassName('update')[0];
+let notSelect = document.getElementById('not-select');
+let eas = document.getElementById('easy');
+let mid = document.getElementById('mid');
+let hard = document.getElementById('hard')
 let triTochki;
 let DoNe;
 let DeL;
@@ -17,11 +21,13 @@ let itle;
 let escip;
 let rio;
 
+
+
 class fileSystem{
     constructor(){
        this.taskss = [];
     }
-   addTask(title, desc, prior){
+   addTask(){
     this.refresh();
     let data = Date.now();
     this.taskss.push({
@@ -30,6 +36,7 @@ class fileSystem{
        desc: deesc.value,
        prior: prio.value,
        done: false,
+       hiddened: false,
     });
     console.log(this.taskss)
    }
@@ -80,11 +87,21 @@ class fileSystem{
             }
        }
    }
+   filterPrio(priori){
+       for(i=0; i<this.taskss.length; i++){
+           let tass = this.taskss[i];
+           if(tass.prior != priori){
+                tass.hiddened = true;
+                showTasks(this.taskss)
+           }
+       }
+   }
 }
 let file = new fileSystem();
 
 createOne.addEventListener("click", function(){
     menu.style.display = "flex";
+    tasks.style.display = 'none'
     if(update.classList.contains('removed') == false){
         update.classList.add('removed')
     }
@@ -107,10 +124,15 @@ apply.addEventListener('click', function(){
 
     clearData();
     menu.style.display = "none";
+    tasks.style.display = 'flex';
     showTasks(file.taskss);
 
 
     });
+
+eas.addEventListener('click', function(){
+    file.filterPrio('easy')
+})
 
 function addClicksToMenu(){
     DeL = document.getElementsByClassName('del');
@@ -165,6 +187,10 @@ function showTasks(arr){
 
         if(arr[i].done == true){
             taask.classList.add('backgroundGray')
+        }
+
+        if(arr.hiddened == true){
+            taask.classList.add('filtred')
         }
 
         let ttittle = document.createElement("div");
